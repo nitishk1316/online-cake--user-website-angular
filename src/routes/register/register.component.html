@@ -1,0 +1,96 @@
+<div class="">
+	<div class="row d-flex justify-content-center m-0">
+		<mat-card class="col-sm-12 col-md-6 col-lg-4 vc-box-shadow m-1">
+			<mat-card-header class="text-center">
+				<mat-card-title>
+					<h2 translate>LABEL_CREATE_ACCOUNT</h2>
+				</mat-card-title>
+				<mat-card-subtitle>
+					<mat-hint *ngIf="successMessage">{{ successMessage }}</mat-hint>
+				</mat-card-subtitle>
+			</mat-card-header>
+			<mat-card-content>
+				<form class="" #form="ngForm">
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label translate>LABEL_FIRST_NAME</mat-label>
+						<input matInput
+							type="text"
+							#firstName="ngModel"
+							[(ngModel)]="registerForm['firstName']"
+							name="firstName"
+							placeholder="{{ 'PLACEHOLDER_FIRST_NAME' | translate }}"
+							[disabled]="isLoading"
+							required />
+					</mat-form-field>
+
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label translate>LABEL_LAST_NAME</mat-label>
+						<input matInput
+							type="text"
+							#lastName="ngModel"
+							[(ngModel)]="registerForm['lastName']"
+							name="lastName"
+							placeholder="{{ 'PLACEHOLDER_LAST_NAME' | translate }}"
+							[disabled]="isLoading"
+							required />
+					</mat-form-field>
+
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label translate>LABEL_EMAIL</mat-label>
+						<input matInput
+							type="text"
+							#email="ngModel"
+							[(ngModel)]="registerForm['email']"
+							name="email"
+							placeholder="{{ 'PLACEHOLDER_EMAIL' | translate }}"
+							[disabled]="isLoading" />
+					</mat-form-field>
+
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label translate>LABEL_MOBILE</mat-label>
+						<input matInput
+							type="text"
+							#mobileNumber="ngModel"
+							[(ngModel)]="registerForm['mobileNumber']"
+							name="mobileNumber"
+							placeholder="{{ 'PLACEHOLDER_MOBILE' | translate }}"
+							[disabled]="isLoading"
+							required />
+					</mat-form-field>
+
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label translate>LABEL_PASSWORD</mat-label>
+						<input type="password"
+							matInput
+							#password="ngModel"
+							[(ngModel)]="registerForm['password']"
+							name="password"
+							placeholder="{{ 'PLACEHOLDER_PASSWORD' | translate }}"
+							[disabled]="isLoading"
+							minlength="8"
+							required />
+					</mat-form-field>
+				</form>
+				<mat-card-subtitle class="text-center">
+					<mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
+				</mat-card-subtitle>
+				<mat-card-actions>
+					<button
+						class="w-100"
+						mat-raised-button
+						color="primary"
+						(click)="register()"
+						[disabled]="!form.valid || isLoading"
+						>
+						<span translate>LABEL_SIGN_UP</span>
+					</button>
+				</mat-card-actions>
+			</mat-card-content>
+
+			<mat-card-content>
+				<span class="pr-1" translate>INFO_ALREADY_ACCOUNT</span>
+				<a href="javascript:void(0)" routerLink="/login" translate>LABEL_LOGIN</a>
+			</mat-card-content>
+		</mat-card>
+	</div>
+</div>

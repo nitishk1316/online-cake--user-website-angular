@@ -1,0 +1,118 @@
+<div class="container section">
+	<mat-card class="vc-box-shadow">
+		<vc-loader *ngIf="isLoading"></vc-loader>
+		<mat-card-title class="text-center text-uppercase">
+			<span translate *ngIf="!this.addressInfo._id">LABEL_NEW_DELIVERY_ADDRESS</span>
+			<span translate *ngIf="this.addressInfo._id">LABEL_CHANGE_ADDRESS</span>
+		</mat-card-title>
+		<mat-card-subtitle *ngIf="!this.addressInfo._id" class="text-center" translate>INFO_SET_ADDRESS_MAP</mat-card-subtitle>
+		<mat-card-content>
+			<div #gmap style="width: 100%; height: 400px;" *ngIf="!this.addressInfo._id"></div>
+			<form #form="ngForm" class="pt-5">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>
+						<span translate>LABEL_AREA</span>
+					</mat-label>
+					<input
+						matInput
+						[(ngModel)]="addressInfo.address"
+						#address="ngModel"
+						name="address"
+						placeholder="{{ 'LABEL_AREA' | translate }}"
+						disabled
+						required
+					/>
+				</mat-form-field>
+
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>
+						<span translate>LABEL_NAME</span>
+					</mat-label>
+					<input
+						matInput
+						[(ngModel)]="addressInfo.name"
+						#name="ngModel"
+						name="name"
+						placeholder="{{ 'PLACEHOLDER_NAME' | translate }}"
+						[disabled]="isLoading"
+						required
+					/>
+				</mat-form-field>
+
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>
+						<span translate>LABEL_FLAT</span>
+					</mat-label>
+					<input
+						matInput
+						[(ngModel)]="addressInfo.flat"
+						#flat="ngModel"
+						name="flat"
+						placeholder="{{ 'LABEL_FLAT' | translate }}"
+						[disabled]="isLoading"
+						required
+					/>
+				</mat-form-field>
+
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>
+						<span translate>LABEL_STREET</span>
+					</mat-label>
+					<input
+						matInput
+						[(ngModel)]="addressInfo.street"
+						#street="ngModel"
+						name="street"
+						placeholder="{{ 'LABEL_STREET' | translate }}"
+						[disabled]="isLoading"
+						required
+					/>
+				</mat-form-field>
+
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>
+						<span translate>LABEL_MOBILE</span>
+					</mat-label>
+					<input
+						matInput
+						[(ngModel)]="addressInfo.mobileNumber"
+						#mobileNumber="ngModel"
+						name="mobileNumber"
+						placeholder="{{ 'PLACEHOLDER_MOBILE' | translate }}"
+						[disabled]="isLoading"
+						required
+						minlength="7"
+						maxlength="15"
+					/>
+				</mat-form-field>
+
+				<mat-button-toggle-group name="addressType" #addressType="ngModel"  [(ngModel)]="addressInfo.addressType" aria-label="Address Type">
+					<mat-button-toggle value="HOME">
+						<span translate>LABEL_HOME</span>
+					</mat-button-toggle>
+					<mat-button-toggle value="WORK">
+						<span translate>LABEL_WORK</span>
+					</mat-button-toggle>
+					<mat-button-toggle value="OTHER">
+						<span translate>LABEL_OTHER</span>
+					</mat-button-toggle>
+				</mat-button-toggle-group>
+			</form>
+		</mat-card-content>
+
+		<mat-card-subtitle class="text-center">
+			<mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
+		</mat-card-subtitle>
+
+		<mat-card-actions>
+			<button
+				mat-raised-button
+				color="primary"
+				[disabled]="isLoading || !form.valid"
+				(click)="save()"
+			>
+			<span translate>LABEL_SAVE</span>
+		</button>
+		</mat-card-actions>
+	</mat-card>
+</div>

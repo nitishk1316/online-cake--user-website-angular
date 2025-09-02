@@ -1,0 +1,39 @@
+<div class="row" *ngIf="type == 'PRODUCT'">
+	<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let item of [].constructor(6); let i = index">
+	<mat-card class="vc-box-shadow p-5">
+		<div class="d-flex justify-content-between">
+			<div class="ssc-circle"></div>
+			<div class="w-75 pl-3 mr-auto">
+				<div class="ssc-line mb-3 w-75"></div>
+				<div class="ssc-line mb-3 w-50"></div>
+				<div class="ssc-line w-75"></div>
+			</div>
+		</div>
+	</mat-card>
+	</div>
+</div>
+
+<div class="row" *ngIf="type == 'TYPE'">
+	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-3" *ngFor="let item of [].constructor(8); let i = index">
+		<mat-card class="vc-box-shadow p-4" >
+			<div class="ssc-square"></div>
+			<div class="w-100 text-center mt-3">
+				<div class="ssc-line m-auto w-75"></div>
+			</div>
+		</mat-card>
+	</div>
+</div>
+
+<div class="w-100" *ngIf="type == 'LIST'">
+	<div class="ssc-line mt-4 p-2" *ngFor="let item of [].constructor(4); let i = index"></div>
+</div>
+
+<div class="row" *ngIf="type == 'ADDRESS'">
+	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3" *ngFor="let item of [].constructor(4); let i = index">
+		<mat-card class="vc-box-shadow p-4">
+			<div class="ssc-line w-25"></div>
+			<div class="ssc-line w-100 my-4"></div>
+			<div class="ssc-line m-auto w-25"></div>
+		</mat-card>
+	</div>
+</div>

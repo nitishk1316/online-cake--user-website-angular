@@ -1,0 +1,52 @@
+<div class="container section">
+	<div class="row">
+
+		<div class="col-lg-10 col-md-10 m-auto">
+			<div class="vc-title-l pt-4">
+				<span translate>LABEL_SELECT_DELIVERY_ADDRESS</span>
+			</div>
+
+			<div class="row d-flex flex-row-reverse p-3">
+				<button mat-raised-button color="primary" [routerLink]="['/address', 'add']">
+					<span translate>LABEL_ADD_NEW_ADDRESS</span>
+				</button>
+			</div>
+
+			<div class="col-12 text-center" *ngIf="!isLoading && addressList.length == 0">
+				<span class="vc-body-m" translate>INFO_NO_ADDRESS_FOUND</span>
+			</div>
+
+			<div class="row">
+				<vc-loader *ngIf="isLoading"></vc-loader>
+				<div class="col-12 col-md-4" *ngFor="let address of addressList">
+					<mat-card class="vc-box-shadow border">
+						<mat-card-header>
+							<mat-card-title class="d-flex">
+								<span translate>{{ address.name }}</span>
+								<div class="ml-auto">
+									<button mat-icon-button [routerLink]="['/address', 'edit', address._id]">
+										<mat-icon>edit</mat-icon>
+									</button>
+								</div>
+							</mat-card-title>
+							<mat-card-title class="vc-body-m">
+								{{ address.flat }}, {{ address.street }}, {{ address.address }}
+							</mat-card-title>
+							<mat-card-title class="vc-body-m">
+								{{ address.mobileNumber }}
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-actions class="text-center">
+							<button
+								mat-raised-button color="primary"
+								(click)="updateAddress(address._id)"
+							>
+								<span translate>LABEL_DELIVER_HERE</span>
+							</button>
+						</mat-card-actions>
+					</mat-card>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

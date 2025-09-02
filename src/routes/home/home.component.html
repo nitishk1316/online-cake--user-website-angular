@@ -1,0 +1,137 @@
+<div class="">
+	<div class="">
+		<vc-loader *ngIf="loaders.banner"></vc-loader>
+		<owl-carousel-o [options]="customOptions">
+			<ng-container *ngFor="let b of banners">
+				<ng-template carouselSlide>
+					<div class="banner text-center" [defaultImage]="'/assets/banner-placeholder.jpg'" [lazyLoad]="b.image">
+						<div class="container">
+							<div class="row">
+								<div class="col">
+									<div class="slider-contain">
+										<div>
+											<h4>{{ b.title }}</h4>
+											<button
+												*ngIf="b.bannerType == 'TYPE'"
+												[routerLink]="['/products' ,'tn', b.slug, 'tid', b.type]"
+												mat-raised-button
+												color="primary"
+											>
+												<span translate>LABEL_SHOP_NOW</span>
+											</button>
+											<button
+												*ngIf="b.bannerType == 'EXTERNAL'"
+												[href]="b.link"
+												target="_blank"
+												mat-raised-button
+												color="primary"
+											>
+												<span translate>LABEL_SHOP_NOW</span>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</ng-container>
+		</owl-carousel-o>
+	</div>
+
+	<div class="container section mt-5 vc-type">
+		<div class="d-flex">
+			<h2 class="vc-title-xl mb-4" translate>LABEL_FOR_OCCASION</h2>
+			<a [routerLink]="['/occasions']" class="ml-auto vc-link" translate>LABEL_VIEW_ALL</a>
+		</div>
+		<div class="row">
+			<vc-loader *ngIf="loaders.occasion"></vc-loader>
+			<div class="col-6 col-lg-3 col-md-3 col-sm-6 col-xs-6" *ngFor="let occasion of occasions">
+				<mat-card class="vc-box-shadow">
+					<a [routerLink]="['/products', 'on', occasion.slug, 'oid', occasion._id]" class="vc-link">
+						<img mat-card-image [defaultImage]="'/assets/type-placeholder.jpg'" [lazyLoad]="occasion.image" [src]="occasion.image" [alt]="occasion.title">
+						<mat-card-header class="text-center">
+							<mat-card-title>{{ occasion.title }}</mat-card-title>
+						</mat-card-header>
+					</a>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+
+	<div class="container section mt-5 vc-type">
+		<div class="d-flex">
+			<h2 class="vc-title-xl mb-4" translate>LABEL_BY_FLAVOUR</h2>
+			<a [routerLink]="['/flavours']" class="ml-auto vc-link" translate>LABEL_VIEW_ALL</a>
+		</div>
+		<div class="row">
+			<vc-loader *ngIf="loaders.flavour"></vc-loader>
+			<div class="col-6 col-lg-3 col-md-3 col-sm-6 col-xs-6" *ngFor="let flavour of flavours">
+				<mat-card class="vc-box-shadow">
+					<a [routerLink]="['/products', 'fn', flavour.slug, 'fid', flavour._id]" class="vc-link">
+						<img mat-card-image [defaultImage]="'/assets/type-placeholder.jpg'" [lazyLoad]="flavour.image" [src]="flavour.image" [alt]="flavour.title">
+						<mat-card-header class="text-center">
+							<mat-card-title>{{ flavour.title }}</mat-card-title>
+						</mat-card-header>
+					</a>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+
+	<div class="container section mt-5 vc-type">
+		<div class="d-flex">
+			<h2 class="vc-title-xl mb-4" translate>LABEL_BY_TYPE</h2>
+			<a [routerLink]="['/types']" class="ml-auto vc-link" translate>LABEL_VIEW_ALL</a>
+		</div>
+		<div class="row">
+			<vc-loader *ngIf="loaders.type"></vc-loader>
+			<div class="col-6 col-lg-3 col-md-3 col-sm-6 col-xs-6" *ngFor="let type of types">
+				<mat-card class="vc-box-shadow">
+					<a [routerLink]="['/products', 'tn', type.slug, 'tid', type._id]" class="vc-link">
+						<img mat-card-image [defaultImage]="'/assets/type-placeholder.jpg'" [lazyLoad]="type.image" [src]="type.image" [alt]="type.title">
+						<mat-card-header class="text-center">
+							<mat-card-title>{{ type.title }}</mat-card-title>
+						</mat-card-header>
+					</a>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+
+	<div class="container section mt-5">
+		<div class="d-flex">
+			<h2 class="vc-title-l mb-4" translate>LABEL_POPULAR_PRODUCTS</h2>
+			<a [routerLink]="['/products']" class="ml-auto vc-link" translate>LABEL_VIEW_ALL</a>
+		</div>
+		<div class="m-0">
+			<vc-loader *ngIf="loaders.product"></vc-loader>
+			<div class="row" *ngIf="loaders.product">
+				<div class="col-6 col-lg-2 col-md-3 col-sm-6 col-xs-6">
+					<vc-skeleton></vc-skeleton>
+				</div>
+			</div>
+			<vc-product-box [products]="products"></vc-product-box>
+		</div>
+	</div>
+
+	<div class="container section mt-5 vc-deal" *ngIf="deals.length > 0">
+		<div class="d-flex">
+			<h2 class="vc-title-l mb-4" translate>LABEL_DEALS</h2>
+		</div>
+		<div class="row">
+			<vc-loader *ngIf="loaders.deal"></vc-loader>
+			<div class="col-6 col-lg-2 col-md-3 col-sm-6 col-xs-6" *ngFor="let deal of deals">
+				<mat-card class="vc-box-shadow">
+					<a [routerLink]="['/products', 'dn', deal.slug, 'did', deal._id]" class="vc-link">
+						<img mat-card-image [defaultImage]="'/assets/deal-placeholder.jpg'" [lazyLoad]="deal.image" [alt]="deal.title">
+						<mat-card-header class="text-center">
+							<mat-card-title>{{ deal.title }}</mat-card-title>
+							<mat-card-subtitle>{{ deal.type.title }}</mat-card-subtitle>
+						</mat-card-header>
+					</a>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+</div>

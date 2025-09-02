@@ -1,0 +1,41 @@
+<div class="container section">
+	<h2 class="vc-page-title" translate>LABEL_MY_ADDRESS</h2>
+
+	<div class="row d-flex flex-row-reverse p-4">
+		<button mat-raised-button color="primary" [routerLink]="['/address', 'add']">
+			<span translate>LABEL_ADD_NEW_ADDRESS</span>
+		</button>
+	</div>
+
+	<div class="row m-0">
+		<vc-loader *ngIf="isLoading"></vc-loader>
+		<div class="col-12 text-center" *ngIf="!isLoading && addresses.length == 0">
+			<span class="vc-body-m" translate>INFO_NO_ADDRESS_FOUND</span>
+		</div>
+
+		<div class="col-12 col-md-6" *ngFor="let address of addresses">
+			<mat-card class="vc-box-shadow border">
+				<mat-card-header>
+					<mat-card-title class="d-flex">
+						<span>{{ address.name }}</span>
+						<div class="ml-auto">
+							<button mat-icon-button [routerLink]="['/address', 'edit', address._id]">
+								<mat-icon>edit</mat-icon>
+							</button>
+							<button mat-icon-button (click)="onDelete(address)">
+								<mat-icon>delete</mat-icon>
+							</button>
+						</div>
+					</mat-card-title>
+				</mat-card-header>
+				<mat-card-content class="vc-title-s">
+					<div class="vc-body-s pb-2">{{ address.flat }}, {{ address.street }}, {{ address.address }}</div>
+					<div class="vc-body-s pb-3">{{ address.mobileNumber }}</div>
+					<button mat-stroked-button color="primary">
+						<span translate>LABEL_{{ address.addressType }}</span>
+					</button>
+				</mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+</div>

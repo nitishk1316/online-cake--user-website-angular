@@ -1,0 +1,142 @@
+<div class="container section">
+	<h2 class="vc-page-title" translate>LABEL_MY_CART</h2>
+
+	<mat-card class="vc-box-shadow">
+		<mat-card-content>
+			<vc-loader *ngIf="isLoading"></vc-loader>
+			<div *ngIf="cart && cart.products.length > 0">
+				<div class="row p-2 border-top" *ngFor="let product of cart.products;">
+
+					<div class="col-3 col-lg-2 col-md-3 col-sm-3 thumbnail" >
+						<img class="vc-cursor" [defaultImage]="'/assets/product-placeholder.jpg'" [lazyLoad]="product.thumbnail" [alt]="product.title" [routerLink]="['/prn', product.slug, 'pid', product._id]" />
+					</div>
+
+					<div class="col-9 col-lg-4 col-md-9 col-sm-9 ">
+						<mat-card-header class="">
+							<mat-card-title class="vc-title-m vc-cursor" [routerLink]="['/prn', product.slug, 'pid', product._id]">{{ product.title | titlecase }}</mat-card-title>
+							<mat-card-subtitle class="vc-title-s">
+								<span class="pr-4">{{ product.capacity }}</span>
+								<span class="pr-4" translate>
+									{{ product.eggless ? "LABEL_EGGLESS" : 'LABEL_WITH_EGG' }}
+								</span>
+							</mat-card-subtitle>
+							<mat-card-subtitle class="vc-title-s mb-0" *ngIf="product.message">
+								<span class="pr-4">{{ product.message }}</span>
+							</mat-card-subtitle>
+						</mat-card-header>
+					</div>
+
+					<div class="col-12 col-lg-2 col-md-4 col-sm-12 pt-2">
+						<mat-card-title class="d-flex justify-content-center">
+							<button class="mr-2" mat-mini-fab color="primary" (click)="dec(product._id, product.sku)">
+								<mat-icon>remove</mat-icon>
+							</button>
+							<button mat-stroked-button>{{ product.quantity }}</button>
+							<button class="ml-2" mat-mini-fab color="primary" (click)="inc(product._id, product.sku)" [disabled]="product.quantity >= product.stock">
+								<mat-icon>add</mat-icon>
+							</button>
+						</mat-card-title>
+					</div>
+
+					<div class="col-6 col-lg-2 col-md-4 col-sm-6 pt-3 ">
+						<mat-card-title class="d-flex justify-content-start justify-content-md-center">
+							<div class="mr-1 vc-title-m">{{ product.sellingPrice | vccurrency }}</div>
+							<del class="ml-1 vc-body-m" *ngIf="product.discount > 0">{{ product.originalPrice | vccurrency }}</del>
+						</mat-card-title>
+					</div>
+
+					<div class="col-6 col-lg-2 col-md-4 col-sm-6 pt-3 ">
+						<mat-card-title class="text-right vc-title-l">{{ product.total | vccurrency }}</mat-card-title>
+					</div>
+				</div>
+
+				<div class="row px-2 pt-3 border-top">
+					<div class="col-9 col-sm-9 text-right ">
+						<div class="vc-title-m" translate>LABEL_SUB_TOTAL</div>
+					</div>
+					<div class="col-3 col-sm-3 ">
+						<mat-card-title class="text-right vc-title-l">{{ cart.subTotal | vccurrency }}</mat-card-title>
+					</div>
+				</div>
+
+				<div class="row px-2">
+					<div class="col-9 col-sm-9 text-right ">
+						<div class="vc-title-m" translate>LABEL_DELIVERY_CHARGE</div>
+					</div>
+					<div class="col-3 col-sm-3 ">
+						<mat-card-title class="text-right vc-title-l">{{ cart.deliveryCharges | vccurrency }}</mat-card-title>
+					</div>
+				</div>
+
+				<div class="row px-2" *ngIf="cart.taxType == 'EXCLUDED'">
+					<div class="col-9 col-sm-9 text-right ">
+						<div class="vc-title-m">
+							{{ cart.tax.title }} ({{ cart.tax.percent }}%)
+						</div>
+					</div>
+					<div class="col-3 col-sm-3 ">
+						<mat-card-title class="text-right vc-title-l">{{ cart.taxPrice | vccurrency }}</mat-card-title>
+					</div>
+				</div>
+
+				<div class="row px-2" *ngIf="cart.coupon.discount > 0">
+					<div class="col-9 col-sm-9 text-right ">
+						<div class="vc-title-m" translate>LABEL_COUPON</div>
+					</div>
+					<div class="col-3 col-sm-3 ">
+						<mat-card-title class="text-right vc-title-l">-{{ cart.coupon.discount | vccurrency }}</mat-card-title>
+					</div>
+				</div>
+
+				<div class="row px-2" *ngIf="cart.isWalletUsed">
+					<div class="col-9 col-sm-9 text-right ">
+						<div class="vc-title-m" translate>LABEL_WALLET</div>
+					</div>
+					<div class="col-3 col-sm-3 ">
+						<mat-card-title class="text-right vc-title-l">-{{ cart.walletAmount | vccurrency }}</mat-card-title>
+					</div>
+				</div>
+
+				<div class="row px-2">
+					<div class="col-9 col-sm-9 text-right ">
+						<div class="vc-title-l" translate>LABEL_TOTAL</div>
+					</div>
+					<div class="col-3 col-sm-3 ">
+						<mat-card-title class="text-right vc-title-l">{{ cart.payTotal | vccurrency }}</mat-card-title>
+					</div>
+				</div>
+			</div>
+
+			<div class="text-center p-2" *ngIf="cart && cart.products.length == 0">
+				<div class="vc-title-m" translate>MSG_YOUR_CART_EMPTY</div>
+			</div>
+		</mat-card-content>
+		<mat-card-actions class="d-flex p-2" *ngIf="cart && cart.products.length > 0">
+			<button
+				class="mr-auto"
+				mat-raised-button
+				color="primary"
+				[routerLink]="['/']"
+			>
+				<span translate>LABEL_CONTINUE</span>
+			</button>
+			<button
+				mat-raised-button
+				color="primary"
+				(click)="getMyCart(true)"
+			>
+			<span translate>LABEL_CHECKOUT</span>
+		</button>
+		</mat-card-actions>
+
+		<mat-card-actions class="text-center p-5" *ngIf="cart && cart.products.length == 0">
+			<button
+				mat-raised-button
+				color="primary"
+				[routerLink]="['/']"
+			>
+				<span translate>LABEL_CONTINUE_SHOPPING</span>
+			</button>
+		</mat-card-actions>
+</mat-card>
+</div>

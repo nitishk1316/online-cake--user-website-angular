@@ -1,0 +1,125 @@
+<div class="container section">
+	<h2 class="vc-page-title" translate>LABEL_ORDER_DETAIL</h2>
+
+	<vc-loader *ngIf="isLoading"></vc-loader>
+	<div class="row" *ngIf="order">
+		<div class="col-md-10 m-auto">
+			<div class="d-flex pb-3 px-2 justify-content-center">
+				<div class="mr-4">
+					<span class="vc-title-m" translate>LABEL_ORDER_ID</span>
+					<span class="vc-title-m">: #{{ order._id }}</span>
+				</div>
+				<div class="">
+					<span class="vc-title-m" translate>LABEL_PLACED</span>
+					<span class="vc-title-m">: {{ order.createdAt }}</span>
+				</div>
+			</div>
+
+			<mat-card class="vc-box-shadow border">
+				<div class="row">
+					<div class="col-md-4 mb-4">
+						<mat-card-content>
+							<div class="vc-title-l pb-3" translate>LABEL_DELIVERY_ADDRESS</div>
+							<div class="vc-title-m pb-1">
+								{{ order.deliveryAddress.name }}
+							</div>
+							<div class="pb-2">
+								{{ order.deliveryAddress.flat }}, {{ order.deliveryAddress.street }}, {{ order.deliveryAddress.address }}
+							</div>
+							<div class="">
+								{{ order.deliveryAddress.mobileNumber }}
+							</div>
+						</mat-card-content>
+					</div>
+					<div class="col-md-4 mb-4">
+						<mat-card-content>
+							<div class="vc-title-l pb-3" translate>LABEL_PAYMENT</div>
+							<div class="py-1">
+								<span class="vc-title-m mr-auto" translate>LABEL_PAYMENT_METHOD</span>:
+								<span class="vc-body-m" translate>LABEL_{{ order.method }}</span>
+							</div>
+							<div class="py-1">
+								<span class="vc-title-m mr-auto" translate>LABEL_PAYMENT_STATUS</span>:
+								<span class="vc-body-m" translate>LABEL_{{ order.paymentStatus }}</span>
+							</div>
+						</mat-card-content>
+					</div>
+					<div class="col-md-4 mb-4">
+						<mat-card-content>
+							<div class="vc-title-l pb-3" translate>LABEL_ORDER_SUMMARY</div>
+							<div class="d-flex py-1">
+								<span class="vc-title-m mr-auto" translate>LABEL_SUB_TOTAL</span>
+								<span class="vc-body-m">{{ order.subTotal | vccurrency }}</span>
+							</div>
+							<div class="d-flex py-1">
+								<span class="vc-title-m mr-auto" translate>LABEL_DELIVERY_CHARGE</span>
+								<span class="vc-body-m">{{ order.deliveryCharges | vccurrency }}</span>
+							</div>
+							<div class="d-flex py-1" *ngIf="order.coupon.discount">
+								<span class="vc-title-m mr-auto" translate>LABEL_COUPON</span>
+								<span class="vc-body-m">-{{ order.coupon.discount | vccurrency }}</span>
+							</div>
+							<div class="d-flex py-1" *ngIf="order.taxType == 'EXCLUDED'">
+								<span class="vc-title-m mr-auto">{{ order.tax.title }} ({{ order.tax.percent }}%)</span>
+								<span class="vc-body-m">{{ order.taxPrice | vccurrency }}</span>
+							</div>
+							<div class="d-flex py-1" *ngIf="order.isWalletUsed">
+								<span class="vc-title-m mr-auto" translate>LABEL_WALLET</span>
+								<span class="vc-body-m">-{{ order.walletAmount | vccurrency }}</span>
+							</div>
+							<div class="d-flex py-1">
+								<span class="vc-title-m mr-auto" translate>LABEL_TOTAL</span>
+								<span class="vc-title-m">{{ order.payTotal | vccurrency }}</span>
+							</div>
+							</mat-card-content>
+						</div>
+				</div>
+
+			</mat-card>
+
+			<mat-card class="vc-box-shadow border">
+
+				<div class="py-2" *ngIf="order.status == 'PENDING' || order.status == 'CONFIRMED' || order.status == 'ON_THE_WAY'">
+					<span class="vc-title-m" translate>LABEL_{{ order.status }}</span>:
+					<span class="vc-body-m">{{ order.deliveryDate }} {{ order.deliveryTime }}</span>
+				</div>
+
+				<div class="py-2" *ngIf="(order.status == 'DELIVERED' || order.status == 'CANCELLED')">
+					<span class="vc-title-m" translate>LABEL_{{ order.status }}</span>:
+					<span class="vc-body-m">{{ order.updatedAt }}</span>
+				</div>
+
+				<div class="row border-top py-2" *ngFor="let product of order.products">
+					<div class="col-3 col-lg-2 col-md-3 col-sm-3 thumbnail ">
+						<img class="vc-cursor" [routerLink]="['/prn', product.slug, 'pid', product.productId]" [defaultImage]="'/assets/product-placeholder.jpg'" [lazyLoad]="product.thumbnail" [alt]="product.title" />
+					</div>
+
+					<div class="col-9 col-lg-6 col-md-9 col-sm-9 pt-3">
+						<mat-card-header class="">
+							<mat-card-title class="vc-body-m vc-cursor" [routerLink]="['/prn', product.slug, 'pid', product.productId]">{{ product?.title | titlecase }}</mat-card-title>
+							<mat-card-subtitle class="vc-title-s">
+								<span class="pr-4">
+									{{ product.capacity }}
+								</span>
+								<span class="pr-4" translate>
+									{{ product.eggless ? "LABEL_EGGLESS" : 'LABEL_WITH_EGG' }}
+								</span>
+							</mat-card-subtitle>
+							<mat-card-subtitle class="vc-title-s mb-0" *ngIf="product.message">
+								<span class="pr-4">{{ product.message }}</span>
+							</mat-card-subtitle>
+						</mat-card-header>
+					</div>
+
+					<div class="col-6 col-lg-2 col-md-6 col-sm-6 pt-3">
+						<span class="vc-title ml-2">{{ product.quantity }} x {{ product.sellingPrice | vccurrency }}</span>
+					</div>
+
+					<div class="col-6 col-lg-2 col-md-6 col-sm-6 text-right pt-3">
+						<span class="vc-title-m mr-2">{{ product.total | vccurrency }}</span>
+					</div>
+				</div>
+			</mat-card>
+		</div>
+	</div>
+</div>

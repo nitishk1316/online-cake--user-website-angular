@@ -1,0 +1,17 @@
+<div class="container section vc-type">
+	<h2 class="vc-page-title" translate>LABEL_BY_TYPE</h2>
+
+	<vc-skeleton [type]="'TYPE'" *ngIf="isLoading"></vc-skeleton>
+	<div class="row">
+		<div class="col-6 col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-3" *ngFor="let type of types">
+			<mat-card class="vc-box-shadow">
+				<a [routerLink]="['/products', 'tn', type.slug, 'tid', type._id]" class="vc-link">
+					<img mat-card-image [defaultImage]="'/assets/type-placeholder.jpg'" [lazyLoad]="type.image" [alt]="type.title">
+					<mat-card-header class="text-center">
+						<mat-card-title>{{ type.title }}</mat-card-title>
+					</mat-card-header>
+				</a>
+			</mat-card>
+		</div>
+	</div>
+</div>

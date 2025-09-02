@@ -1,0 +1,43 @@
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<mat-list *ngIf="settings">
+					<div mat-subheader class="text-uppercase" translate>LABEL_STORE_INFORMATION</div>
+					<mat-list-item>
+						<mat-icon mat-list-icon>location_on</mat-icon>
+						<div mat-line>{{ settings.storeName }}</div>
+					</mat-list-item>
+					<mat-list-item>
+						<mat-icon mat-list-icon>call</mat-icon>
+						<div mat-line><span translate>LABEL_CALL</span>:  {{ settings.phoneNumber }}</div>
+					</mat-list-item>
+					<mat-list-item>
+						<mat-icon mat-list-icon>email</mat-icon>
+						<div mat-line><span translate>LABEL_EMAIL</span>: {{ settings.email }}</div>
+					</mat-list-item>
+				</mat-list>
+			</div>
+			<div class="col-md-6">
+				<mat-list role="list">
+					<div mat-subheader class="text-uppercase" translate>LABEL_USEFUL_LINKS</div>
+					<mat-list-item role="listitem">
+						<button mat-button routerLink="/pages/about-us" >
+							<span translate>LABEL_ABOUT_US</span>
+						</button>
+					</mat-list-item>
+					<mat-list-item role="listitem">
+						<button mat-button routerLink="/pages/privacy-policy" >
+							<span translate>LABEL_PRIVACY_POLICY</span>
+						</button>
+					</mat-list-item>
+					<mat-list-item role="listitem">
+						<button mat-button routerLink="/pages/terms-and-conditions" >
+							<span translate>LABEL_TERMS_CONDITIONS</span>
+						</button>
+					</mat-list-item>
+				</mat-list>
+			</div>
+		</div>
+	</div>
+</footer>

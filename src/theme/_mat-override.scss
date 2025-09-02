@@ -1,0 +1,159 @@
+// .mat-card {
+// 	font-family: 'Lato';
+// }
+
+.mat-sidenav-container {
+	padding-top: 0;
+}
+
+/* Drawer */
+.mat-drawer-container {
+  background: $secondary-color;
+	height: 100%;
+}
+
+/* Buttons */
+.mat-raised-button,
+.mat-flat-button,
+.mat-fab,
+.mat-mini-fab {
+	text-transform: uppercase;
+	box-shadow: none;
+  &.mat-primary {
+    background: $primary-button-color;
+  }
+}
+
+.mat-stroked-button {
+	&.mat-primary {
+    color: $primary-color;
+  }
+}
+
+.mat-button-disabled {
+	background: $primary-color !important;
+	color: $white !important;
+	opacity: .4;
+}
+
+/* Card */
+.mat-card {
+  margin-bottom: 1rem;
+}
+
+.mat-card-header-text {
+	width: 100%;
+	margin: 0 !important;
+}
+
+.mat-card-actions {
+  margin: 0 !important;
+  margin-bottom: 20px !important;
+}
+
+/* Toolbar */
+.mat-toolbar {
+  position: fixed;
+  z-index: 1000;
+  -webkit-transition: all 300ms ease;
+  -moz-transition: all 300ms ease;
+  -ms-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  transition: all 300ms ease;
+  background-color: $primary-color !important;
+  color: $white !important;
+  box-shadow: 0px 0px 8px $primary-color;
+}
+
+/* Chips */
+.mat-chip {
+	&.mat-standard-chip {
+		background-color: $chip-background;
+    color: $primary-text-color;
+	}
+
+	&.mat-chip-selected {
+		&.mat-primary {
+			background-color: $primary-color !important;
+		}
+	}
+}
+
+/* Tabs */
+.mat-ink-bar {
+	background-color: $primary-color !important;
+}
+
+.mat-tab-link {
+	&:hover {
+		text-decoration: none;
+		color: inherit;
+		z-index:1000;
+		box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+		-webkit-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+		-moz-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+	}
+}
+
+@media(max-width: 991px) {
+	.mat-tab-header {
+		overflow-x: scroll !important;
+		.mat-tab-link-container,
+		.mat-tab-label-container {
+			overflow: visible !important;
+		}
+		.mat-tab-header-pagination {
+			display: none !important;
+		}
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
+}
+
+
+/* Badge */
+.mat-badge-content {
+	background: $secondary-color !important;
+	color: $primary-text-color !important;
+}
+
+/* List item */
+.mat-list-item {
+	&:hover {
+		background-color: $secondary-color;
+	}
+	&.mat-list-single-selected-option {
+		background-color: $primary-color;
+		color: $white;
+	}
+}
+.mat-list-base {
+	overflow: hidden;
+}
+
+/* Spinner */
+.mat-spinner {
+	circle {
+		stroke: $primary-color;
+	}
+}
+
+/* Stepper */
+.mat-step-header {
+	.mat-step-icon-state-done,
+	.mat-step-icon-state-edit,
+	.mat-step-icon-selected {
+		background-color: $primary-color;
+	}
+}
+
+.mat-mini-fab {
+	border-radius: 2px !important;
+}
+
+.mat-icon {
+	&.mat-primary {
+		color: $primary-color;
+	}
+}

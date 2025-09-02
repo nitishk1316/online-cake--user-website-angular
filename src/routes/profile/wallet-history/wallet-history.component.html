@@ -1,0 +1,46 @@
+<div class="row">
+	<div class="container section col-8 m-auto">
+		<h2 class="vc-page-title" translate>LABEL_MY_WALLET</h2>
+
+		<vc-loader *ngIf="isLoading"></vc-loader>
+		<div class="p-3 mb-4 text-center">
+			<span class="vc-title-l" translate>LABEL_WALLET_BALANCE</span>:
+			<span class="vc-subtitle-l d-inline-block"> {{ walletAmount | vccurrency }}</span>
+		</div>
+
+		<div class="row" *ngIf="wallets.length > 0">
+			<div *ngFor="let o of wallets" class="col-md-8 m-auto">
+				<mat-card class="vc-box-shadow border">
+					<mat-card-title>
+						<span class="vc-title-m" translate>LABEL_ORDER_ID</span>:
+						<span class="vc-subtitle-m d-inline-block mb-1">#{{ o.order }}</span>
+					</mat-card-title>
+
+					<mat-card-title>
+						<span class="vc-title-m" translate>LABEL_AMOUNT</span>:
+						<span class="vc-subtitle-m d-inline-block mb-1">{{ o.amount | vccurrency }}</span>
+						<span *ngIf="o.walletType == 'CREDITED'"><mat-icon >south</mat-icon></span>
+						<span *ngIf="o.walletType == 'DEBITED'"><mat-icon>north</mat-icon></span>
+					</mat-card-title>
+
+					<mat-card-title>
+						<span class="vc-title-m" translate>LABEL_TRANSCATION_TYPE</span>:
+						<span class="vc-subtitle-m d-inline-block mb-1" translate>LABEL_{{ o.walletType }}</span>
+					</mat-card-title>
+
+					<mat-card-title>
+						<span class="vc-title-m" translate>LABEL_TRANSCATION_DATE</span>:
+						<span class="vc-subtitle-m d-inline-block mb-1">{{ o.createdAt }}</span>
+					</mat-card-title>
+
+					<mat-card-title>
+						<span class="vc-title-m" translate>LABEL_TRANSCATION_DETAIL</span>:
+						<span class="vc-subtitle-m d-inline-block mb-1" *ngIf="o.walletType == 'CREDITED'" translate>LABEL_ORDER_PAYMENT</span>
+						<span class="vc-subtitle-m d-inline-block mb-1" *ngIf="o.walletType == 'DEBITED'" translate>LABEL_ORDER_CANCEL</span>
+					</mat-card-title>
+
+				</mat-card>
+			</div>
+		</div>
+	</div>
+</div>

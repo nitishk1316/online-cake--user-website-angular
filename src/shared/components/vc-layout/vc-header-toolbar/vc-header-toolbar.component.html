@@ -1,0 +1,72 @@
+
+<mat-toolbar>
+	<mat-toolbar-row>
+		<div class="container d-flex">
+			<button mat-icon-button (click)="toggle()" *ngIf="helperService.smallScreen$ | async" >
+				<mat-icon>menu</mat-icon>
+			</button>
+			<a routerLink='/'>
+				<img src="assets/logo.png" class="logo" *ngIf="!(helperService.smallScreen$ | async)" />
+			</a>
+
+			<span class="ml-auto"></span>
+			<div class="search-bar-ct">
+				<input class="search-bar mt-1" [(ngModel)]="searchText" matInput placeholder="{{ 'PLACEHOLDER_SEARCH_PRODUCT' | translate }}" (ngModelChange)="search()" />
+				<a class="vc-link" (click)="search()">
+					<mat-icon>search</mat-icon>
+				</a>
+			</div>
+
+			<span class="ml-auto"></span>
+			<div *ngIf="!(helperService.smallScreen$ | async)" class="pt-1">
+				<button mat-button routerLink='/'>
+					<span translate>LABEL_HOME</span>
+				</button>
+				<button mat-button routerLink='/types'>
+					<span translate>LABEL_BY_TYPE</span>
+				</button>
+				<button mat-button routerLink='/flavours'>
+					<span translate>LABEL_BY_FLAVOUR</span>
+				</button>
+				<button mat-button routerLink='/occasions'>
+					<span translate>LABEL_FOR_OCCASION</span>
+				</button>
+				<button mat-button [matMenuTriggerFor]="menu">My Account</button>
+
+				<mat-menu #menu="matMenu">
+					<div *ngIf="!profileService.authenticated">
+						<button mat-menu-item class="border-bottom" routerLink='/login'>
+							<span translate>LABEL_LOGIN</span>
+						</button>
+						<button mat-menu-item class="border-bottom" routerLink='/register'>
+							<span translate>LABEL_SIGN_UP</span>
+						</button>
+					</div>
+					<div *ngIf="profileService.authenticated">
+						<button mat-menu-item class="border-bottom" routerLink='/profile'>
+							<span translate>LABEL_MY_PROFILE</span>
+						</button>
+						<button mat-menu-item class="border-bottom" routerLink='/address'>
+							<span translate>LABEL_MY_ADDRESS</span>
+						</button>
+						<button mat-menu-item class="border-bottom" routerLink='/orders'>
+							<span translate>LABEL_MY_ORDERS</span>
+						</button>
+						<button mat-menu-item class="border-bottom" routerLink='/wishlist'>
+							<span translate>LABEL_MY_WISHLIST</span>
+						</button>
+						<button mat-menu-item class="border-bottom" routerLink='/change-password'>
+							<span translate>LABEL_CHANGE_PASSWORD</span>
+						</button>
+					</div>
+					<button mat-menu-item class="border-bottom" routerLink='/change-language' translate>LABEL_CHANGE_LANGUAGE</button>
+					<button *ngIf="profileService.authenticated" (click)="logout()" class="border-bottom" mat-menu-item translate>LABEL_LOGOUT</button>
+				</mat-menu>
+			</div>
+			<span class="mr-4"></span>
+			<button class="pt-1" mat-icon-button routerLink="/carts">
+				<mat-icon [matBadge]="cartService.cartCount$ | async" matBadgeColor="warn">shopping_cart</mat-icon>
+			</button>
+		</div>
+	</mat-toolbar-row>
+</mat-toolbar>

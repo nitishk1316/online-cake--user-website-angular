@@ -1,0 +1,77 @@
+<div class="">
+	<div class="row d-flex justify-content-center m-0">
+		<mat-card class="col-sm-12 col-md-6 col-lg-4 vc-box-shadow m-1">
+			<mat-card-header class="text-center">
+				<mat-card-title>
+					<h2 translate>LABEL_LOGIN</h2>
+				</mat-card-title>
+				<mat-card-subtitle>
+					<mat-hint *ngIf="successMessage">{{ successMessage }}</mat-hint>
+				</mat-card-subtitle>
+			</mat-card-header>
+
+			<vc-loader *ngIf="isLoading"></vc-loader>
+
+			<mat-card-content class="pt-3">
+				<form class="" #form="ngForm">
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>
+							<span translate>LABEL_EMAIL</span>/
+							<span translate>LABEL_MOBILE</span>
+						</mat-label>
+						<input matInput
+							type="text"
+							#emailOrMobile="ngModel"
+							[(ngModel)]="loginPwdForm['emailOrMobile']"
+							name="emailOrMobile"
+							placeholder="{{ 'PLACEHOLDER_EMAIL_MOBILE' | translate }}"
+							[disabled]="isLoading"
+							required />
+					</mat-form-field>
+
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label translate>LABEL_PASSWORD</mat-label>
+						<input type="password"
+							matInput
+							#password="ngModel"
+							[(ngModel)]="loginPwdForm['password']"
+							name="password"
+							placeholder="{{ 'PLACEHOLDER_PASSWORD' | translate }}"
+							[disabled]="isLoading || loginViaOtp"
+							minlength="8"
+							required />
+					</mat-form-field>
+
+					<mat-checkbox color="primary" [(ngModel)]="loginViaOtp" name="loginViaOtp">Login with OTP instead of password</mat-checkbox>
+				</form>
+
+				<mat-card-subtitle class="text-center">
+					<mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
+				</mat-card-subtitle>
+			</mat-card-content>
+
+			<mat-card-actions>
+				<button
+					class="w-100"
+					mat-raised-button
+					color="primary"
+					(click)="login()"
+					[disabled]="!form.valid || isLoading"
+					>
+					<span translate>LABEL_LOGIN</span>
+				</button>
+			</mat-card-actions>
+
+			<mat-card-content>
+				<div class="row">
+					<div class="col-sm-6">
+						<span class="pr-1" translate>LABEL_NO_ACCOUNT</span> <a href="javascript:void(0)" routerLink="/register" translate>LABEL_SIGN_UP</a>
+					</div>
+					<div class="col-sm-6 text-right">
+						<a href="javascript:void(0)" routerLink="/forgot-password" translate>LABEL_FORGOT_PASSWORD</a>
+					</div>
+				</div>
+			</mat-card-content>
+		</mat-card>
+	</div>
+</div>

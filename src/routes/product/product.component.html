@@ -1,0 +1,31 @@
+<div class="container section">
+	<div class="p-3 vc-title-m border-bottom" *ngIf="selectedId || searchText">
+		<span *ngIf="title">{{ title }}</span>
+		<span *ngIf="searchText" translate [translateParams]="{total: total, text: searchText}">MSG_SHOWING_RESULT</span>
+	</div>
+	<div class="p-3 vc-title-m border-bottom" *ngIf="!selectedId && !searchText">
+		<span translate>LABEL_POPULAR_PRODUCTS</span>
+	</div>
+
+	<div class="p-4 text-center" *ngIf="searchText && products.length == 0">
+		<div class="vc-title-m" translate>MSG_NO_SEARCH_FOUND </div>
+	</div>
+	<div class="p-4 text-center" *ngIf="!isLoading && products.length == 0">
+		<div class="vc-title-m" translate>INFO_NO_PRODUCT_FOUND </div>
+	</div>
+	<div>
+		<div class="mt-3 position-relative">
+			<vc-skeleton [type]="'PRODUCT'" *ngIf="isLoading"></vc-skeleton>
+			<vc-product-box [products]="products"></vc-product-box>
+		</div>
+		<div infiniteScroll
+			[infiniteScrollDistance]="5"
+			[infiniteScrollThrottle]="1000"
+			(scrolled)="onScroll()"
+			*ngIf="products.length">
+		</div>
+		<div class="mb-5 position-relative">
+			<vc-loader *ngIf="isInfiniteLoading"></vc-loader>
+		</div>
+	</div>
+</div>

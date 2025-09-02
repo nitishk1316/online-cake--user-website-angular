@@ -1,0 +1,145 @@
+<div class="container section">
+	<div class="vc-title-l py-4">
+		<span translate>LABEL_SELECT_PAYMENT_METHOD</span>
+	</div>
+
+	<div class="row">
+		<vc-loader *ngIf="isLoading"></vc-loader>
+		<div class="col-lg-8 col-md-8">
+			<mat-card *ngIf="cart" class="vc-box-shadow border">
+				<div class="row">
+					<div class="col-md-8">
+						<mat-card-title *ngIf="wallet.amount > 0">
+							<mat-checkbox color="primary" name="isWalletUsed" (click)="applyWallet()" [(ngModel)]="wallet.used">
+								<span class="vc-title-m" translate>LABEL_PAY_WALLET</span>
+							</mat-checkbox>
+						</mat-card-title>
+						<mat-card-content class="p-1">
+							<span translate class="vc-body-s">LABEL_WALLET_BALANCE</span>:
+							<span class="vc-title-m d-inline-block">{{ wallet.amount | vccurrency }}</span>
+						</mat-card-content>
+						<mat-card-subtitle *ngIf="cart.payTotal == 0">
+							<p translate [translateParams]="{ amount: cart.walletAmount, currency: cart.currency.symbol }">INFO_PAY_WALLET</p>
+						</mat-card-subtitle>
+					</div>
+					<div class="col-md-4 text-right" *ngIf="cart.payTotal == 0">
+						<button mat-raised-button color="primary" (click)="placeOrder('COD')">
+							<span translate>LABEL_PLACE_ORDER</span>
+						</button>
+					</div>
+				</div>
+			</mat-card>
+
+			<div *ngIf="cart && cart.payTotal > 0">
+				<div *ngFor="let pay of paymentList">
+					<mat-card class="vc-box-shadow border">
+						<div class="row">
+							<div class="col-md-8">
+								<mat-card-header>
+									<mat-card-title translate>LABEL_{{ pay.method }}</mat-card-title>
+									<mat-card-title class="vc-body-s">
+										<p translate [translateParams]="{ amount: cart.payTotal, currency: cart.currency.symbol }">INFO_PAY_{{ pay.method }}</p>
+									</mat-card-title>
+								</mat-card-header>
+							</div>
+							<div class="col-md-4 text-right">
+								<button mat-raised-button color="primary" (click)="placeOrder(pay.method)">
+									<span *ngIf="pay.method == 'COD'" translate>LABEL_PLACE_ORDER</span>
+									<span *ngIf="pay.method == 'CARD'" translate>LABEL_MAKE_PAYMENT</span>
+								</button>
+							</div>
+						</div>
+					</mat-card>
+				</div>
+			</div>
+
+			<form #form="ngForm" class="my-5">
+				<mat-form-field appearance="outline" class="coupon-form mr-2">
+					<mat-label translate>LABEL_HAVE_COUPON</mat-label>
+					<input matInput
+						[(ngModel)]="coupon.code"
+						#couponCode="ngModel"
+						name="couponCode"
+						placeholder="{{ 'PLACEHOLDER_COUPON' | translate }}"
+						required
+					/>
+				</mat-form-field>
+				<button
+					*ngIf="cart && cart.coupon.code != null"
+					mat-raised-button
+					color="warn"
+					(click)="removeCoupon()"
+				>
+					<span translate>LABEL_REMOVE</span>
+				</button>
+				<button
+					*ngIf="cart && cart.coupon.code == null"
+					mat-raised-button
+					color="primary"
+					[disabled]="isLoading || !form.valid"
+					(click)="applyCoupon()"
+				>
+					<span translate>LABEL_APPLY</span>
+				</button>
+			</form>
+		</div>
+		<div class="col-lg-4 col-md-4">
+			<mat-card class="vc-box-shadow border">
+				<mat-card-header class="text-center">
+					<mat-card-title>
+						<span class="text-uppercase" translate>LABEL_MY_CART</span>
+					</mat-card-title>
+				</mat-card-header>
+				<mat-card-content class="cart-box vc-cart">
+					<mat-selection-list [multiple]="false" *ngIf="cart">
+						<mat-list-option class="border-top">
+							<div class="d-flex" >
+								<span class="mr-auto vc-title-m" translate>LABEL_ITEMS</span>
+								<span>{{ cart.count }}</span>
+							</div>
+						</mat-list-option>
+						<mat-list-option class="border-top">
+							<div class="d-flex" >
+								<span class="mr-auto vc-title-m" translate>LABEL_SUB_TOTAL</span>
+								<span>{{ cart.subTotal | vccurrency }}</span>
+							</div>
+						</mat-list-option>
+						<mat-list-option class="border-top">
+							<div class="d-flex" >
+								<span class="mr-auto vc-title-m" translate>LABEL_DELIVERY_CHARGE</span>
+								<span>{{ cart.deliveryCharges | vccurrency }}</span>
+							</div>
+						</mat-list-option>
+						<mat-list-option class="border-top" *ngIf="cart.taxType == 'EXCLUDED'">
+							<div class="d-flex" >
+								<span class="mr-auto vc-title-m">
+									{{ cart.tax.title }} ({{ cart.tax.percent }}%)
+								</span>
+								<span>{{ cart.taxPrice | vccurrency }}</span>
+							</div>
+						</mat-list-option>
+
+						<mat-list-option class="border-top" *ngIf="cart.coupon.discount > 0">
+							<div class="d-flex" >
+								<span class="mr-auto vc-title-m" translate>LABEL_COUPON</span>
+								<span>-{{ cart.coupon.discount | vccurrency }}</span>
+							</div>
+						</mat-list-option>
+						<mat-list-option class="border-top" *ngIf="cart.isWalletUsed">
+							<div class="d-flex" >
+								<span class="mr-auto vc-title-m" translate>LABEL_WALLET</span>
+								<span>-{{ cart.walletAmount | vccurrency }}</span>
+							</div>
+						</mat-list-option>
+						<mat-list-option class="border-top">
+							<div class="d-flex" >
+								<span class="mr-auto vc-title-m" translate>LABEL_TOTAL</span>
+								<span class="vc-title-m">{{ cart.payTotal | vccurrency }}</span>
+							</div>
+						</mat-list-option>
+					</mat-selection-list>
+				</mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+</div>

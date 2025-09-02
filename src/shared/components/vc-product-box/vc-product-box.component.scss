@@ -1,0 +1,21 @@
+.vc-price {
+	margin-top: -1px;
+}
+
+.mat-stroked-button {
+	margin: 0;
+	padding: 0;
+	line-height: 23px;
+}
+
+.wishlist {
+	position: absolute;
+	top: 25px;
+	right: 0;
+}
+
+@media(max-width: 480px) {
+	.mobile-view {
+		display: none;
+	}
+}

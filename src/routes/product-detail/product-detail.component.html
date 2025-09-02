@@ -1,0 +1,169 @@
+<div class="container section pb-0">
+	<vc-loader *ngIf="isLoading"></vc-loader>
+	<mat-card class="vc-box-shadow" *ngIf="product">
+		<div class="row m-0">
+			<div class="col-md-4 p-0">
+				<div class="vc-wishlist-icon">
+					<div class="py-1">
+						<button class="mr-2"
+							*ngIf="isWishist"
+							mat-icon-button
+							(click)="removeFromWishlist()"
+							color="primary"
+						>
+						<mat-icon>favorite</mat-icon>
+						</button>
+						<button class="mr-2"
+							*ngIf="!isWishist"
+							mat-icon-button
+							(click)="addToWishlist()"
+						>
+						<mat-icon>favorite</mat-icon>
+						</button>
+					</div>
+				</div>
+				<owl-carousel-o [options]="customOptions">
+					<ng-container *ngFor="let image of product.images">
+						<ng-template carouselSlide [id]="image">
+							<img class="vc-cursor" [routerLink]="['/prn', product.slug, 'pid', product._id]" [defaultImage]="'/assets/product-placeholder.jpg'" [lazyLoad]="image" [alt]="product.title" [title]="product.title" />
+						</ng-template>
+					</ng-container>
+				</owl-carousel-o>
+			</div>
+			<div class="col-md-8 px-4">
+				<mat-card-title class="my-4">
+					<div class="vc-title-xl vc-cursor" [routerLink]="['/prn', product.slug, 'pid', product._id]">{{ product?.title | titlecase }} - {{ selectedVariant.capacity }}</div>
+					<div class="pt-2">
+						<mat-chip-list>
+							<mat-chip *ngIf="selectedVariant">{{ selectedVariant.capacity }}</mat-chip>
+						</mat-chip-list>
+					</div>
+
+				</mat-card-title>
+
+				<div class="border-bottom"></div>
+				<mat-card-title class="pt-4">
+					<span class="vc-title-l mr-2" translate *ngIf="!selectedVariant.discount">LABEL_PRODUCT_MRP</span>
+					<span class="vc-title-l mr-2" translate *ngIf="selectedVariant.discount">LABEL_SELLING_PRICE</span>
+					<span class="vc-title-l">{{ selectedVariant?.sellingPrice | vccurrency }} </span>
+				</mat-card-title>
+
+				<mat-card-subtitle *ngIf="selectedVariant?.discount">
+					<span class="vc-title-m mr-2" translate>LABEL_PRODUCT_MRP</span>
+					<span class="vc-title-m">
+						<del>{{ selectedVariant?.originalPrice | vccurrency }}</del>
+					</span>
+					<span class="ml-2 vc-title-s" *ngIf="selectedVariant.discount > 0" translate [translateParams]="{discount: selectedVariant.discount}">LABEL_DISCOUNT_OFF</span>
+				</mat-card-subtitle>
+
+				<mat-card-content class="pt-4">
+					<div class="vc-title-m pl-2" translate>LABEL_AVAILABLE_IN</div>
+					<div class="d-flex pt-4">
+						<div *ngFor="let v of product.variants" (click)="changeVariant(v)">
+							<button *ngIf="selectedVariant.sku == v.sku;" mat-flat-button color="primary" class="mx-1">{{ v.capacity }}</button>
+							<button *ngIf="selectedVariant.sku != v.sku;" mat-stroked-button class="mx-1">{{ v.capacity }}</button>
+						</div>
+					</div>
+				</mat-card-content>
+
+				<mat-card-content class="d-flex mb-4">
+					<div *ngIf="cartProducts[selectedVariant.sku] && cartProducts[selectedVariant.sku] > 0">
+						<mat-card-title class="d-flex justify-content-center" *ngIf="cartProducts && cartProducts[selectedVariant.sku]">
+							<button class="mr-1" mat-mini-fab color="primary" (click)="dec()">
+								<mat-icon>remove</mat-icon>
+							</button>
+
+							<button class="mr-1" mat-stroked-button>{{ cartProducts[selectedVariant.sku] }}</button>
+
+							<button mat-mini-fab color="primary" (click)="inc()"
+							[disabled]="cartProducts[selectedVariant.sku] >= selectedVariant.stock">
+								<mat-icon>add</mat-icon>
+							</button>
+						</mat-card-title>
+					</div>
+					<mat-card-subtitle class="mb-3 vc-title-m text-center" *ngIf="selectedVariant.stock == 0; else addButton">
+						<span translate>LABEL_OUT_OF_STOCK</span>
+					</mat-card-subtitle>
+
+					<ng-template #addButton>
+						<mat-card-title *ngIf="(!cartProducts[selectedVariant.sku] || cartProducts[selectedVariant.sku] == 0)">
+							<button
+								mat-raised-button
+								color="primary"
+								(click)="addToCart()"
+							>
+								<span class="text-uppercase" translate>LABEL_ADD_TO_CART</span>
+							</button>
+						</mat-card-title>
+					</ng-template>
+				</mat-card-content>
+
+				<div class="my-4">
+					<mat-radio-group [(ngModel)]="eggless[selectedVariant.sku]">
+						<mat-radio-button [value]="false">
+							<span translate>LABEL_WITH_EGG</span>
+						</mat-radio-button>
+						<mat-radio-button [value]="true">
+							<span translate>LABEL_EGGLESS</span>
+						</mat-radio-button>
+					</mat-radio-group>
+				</div>
+
+				<div class="">
+					<div *ngIf="type" class="mb-2">
+						<span class="vc-title-m" translate>LABEL_TYPE</span>:
+						<span class="vc-subtitle-m">{{ type.title }}</span>
+					</div>
+
+					<div *ngIf="flavour" class="mb-2">
+						<span class="vc-title-m" translate>LABEL_FLAVOUR</span>:
+						<span class="vc-subtitle-m">{{ flavour.title }}</span>
+					</div>
+
+					<div *ngIf="occasion" class="mb-2">
+						<span class="vc-title-m" translate>LABEL_OCCASION</span>:
+						<span class="vc-subtitle-m">{{ occasion.title }}</span>
+					</div>
+
+					<div *ngIf="cartProducts[selectedVariant.sku] && cartProducts[selectedVariant.sku] > 0" class="pt-3">
+						<mat-form-field appearance="outline" >
+							<mat-label translate>LABEL_MESSAGE_ON_CAKE</mat-label>
+							<textarea
+								matInput
+								placeholder="{{ 'LABEL_MESSAGE_ON_CAKE' | translate }}"
+								[(ngModel)]="cakeMessage[selectedVariant.sku]"
+								#message="ngModel"
+								name="message"
+								maxlength="25"
+							></textarea>
+						</mat-form-field>
+						<button
+							class="d-block"
+							mat-raised-button
+							color="primary"
+							[disabled]="isLoading"
+							(click)="updateMessage()"
+						>
+							<span translate>LABEL_UPDATE</span>
+						</button>
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+	</mat-card>
+</div>
+
+<div class="container section mt-3">
+	<mat-tab-group *ngIf="product">
+		<mat-tab label="{{ 'LABEL_DESCRIPTION' | translate }}">
+			<mat-card class="vc-box-shadow">
+				<mat-card-content>
+					<div [innerHTML]="product.desc"></div>
+				</mat-card-content>
+			</mat-card>
+		</mat-tab>
+	</mat-tab-group>
+</div>

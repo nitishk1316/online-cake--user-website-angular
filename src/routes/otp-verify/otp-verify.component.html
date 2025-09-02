@@ -1,0 +1,70 @@
+<div class="">
+	<div class="row d-flex justify-content-center m-0">
+		<mat-card class="col-sm-12 col-md-6 col-lg-4 vc-box-shadow m-1">
+			<mat-card-header class="text-center">
+				<mat-card-title>
+					<h2 translate>Number verification</h2>
+				</mat-card-title>
+				<mat-card-subtitle>
+					<mat-hint *ngIf="successMessage">{{ successMessage }}</mat-hint>
+				</mat-card-subtitle>
+			</mat-card-header>
+
+			<vc-loader *ngIf="isLoading"></vc-loader>
+
+			<!-- DEMO - Remove from release  -->
+			<p class="note">Please enter OTP as 2345. For demo purpose, we are not sending SMS/Email, but you will get SMS/Email OTP features when you buy.</p>
+			<!-- END DEMO -->
+
+			<mat-card-content class="pt-3">
+				<form class="" #vForm="ngForm">
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>
+							<span translate>LABEL_EMAIL</span>/<span translate>LABEL_MOBILE</span>
+						</mat-label>
+						<input
+							matInput
+							type="text"
+							#emailOrMobile="ngModel"
+							[(ngModel)]="verifyForm['emailOrMobile']"
+							name="emailOrMobile"
+							placeholder="{{ 'PLACEHOLDER_EMAIL_MOBILE' | translate }}"
+							[disabled]="'true'"
+							required />
+					</mat-form-field>
+
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>
+							<span translate>LABEL_OTP</span>
+						</mat-label>
+						<input
+							matInput type="text"
+							placeholder="{{ 'PLACEHOLDER_OTP' | translate }}"
+							name="otp"
+							[(ngModel)]="verifyForm['otp']"
+							#otp="ngModel"
+							minlength="4"
+							[disabled]="isLoading"
+							required />
+					</mat-form-field>
+				</form>
+
+				<mat-card-subtitle class="text-center">
+					<mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
+				</mat-card-subtitle>
+
+				<mat-card-actions>
+					<button
+						class="w-100"
+						mat-raised-button
+						color="primary"
+						(click)="verify()"
+						[disabled]="!vForm.valid || isLoading"
+						>
+						<span translate>LABEL_VERIFY</span>
+					</button>
+				</mat-card-actions>
+			</mat-card-content>
+		</mat-card>
+	</div>
+</div>

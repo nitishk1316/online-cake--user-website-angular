@@ -1,0 +1,38 @@
+<div class="row vc-product-box m-0">
+	<div class="col-6 col-lg-3 col-md-4 col-sm-6 col-xs-6 mb-3 px-1" *ngFor="let product of products; trackBy:trackBy">
+		<mat-card class="vc-box-shadow p-2">
+			<vc-loader *ngIf="isLoading[product._id]"></vc-loader>
+			<button *ngIf="wishlist" class="wishlist"
+				mat-icon-button
+				color="primary"
+				(click)="removeFromWishlist(product._id)"
+			>
+				<mat-icon>favorite</mat-icon>
+			</button>
+			<a [routerLink]="['/prn', product.slug, 'pid', product._id]" class="">
+				<img mat-card-image [src]="product.thumbnail" [alt]="product.title" class="" />
+				<span class="vc-discount-box" *ngIf="product.variants[0].discount > 0" translate [translateParams]="{ discount: product.variants[0].discount }">LABEL_DISCOUNT_OFF</span>
+			</a>
+
+			<div class="text-center">
+				<mat-card-header class="">
+
+					<mat-card-title class="mb-2 vc-title-m vc-two-line-text" [title]="product?.title" [routerLink]="['/prn', product.slug, 'pid', product._id]">
+						{{ product?.title | titlecase }}
+					</mat-card-title>
+
+				</mat-card-header>
+
+				<mat-card-content class="d-flex px-1 mb-1">
+					<mat-card-title class="d-flex justify-content-center">
+						<div class="d-inline-block vc-title-m vc-price mr-2">{{ product.variants[0].sellingPrice | vccurrency }}</div>
+						<div *ngIf="product.variants[0].originalPrice != product.variants[0].sellingPrice" class="vc-title-s">
+							<del>{{ product.variants[0].originalPrice | vccurrency }}</del>
+						</div>
+					</mat-card-title>
+					<mat-card-subtitle class="ml-auto vc-title-s mobile-view">{{ product.variants[0].capacity }}</mat-card-subtitle>
+				</mat-card-content>
+			</div>
+		</mat-card>
+	</div>
+</div>

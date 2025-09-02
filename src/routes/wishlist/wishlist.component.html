@@ -1,0 +1,10 @@
+<div class="container section">
+	<h2 class="vc-page-title" translate>LABEL_MY_WISHLIST</h2>
+
+	<div class="">
+		<div class="col-12 text-center mt-5" *ngIf="!isLoading && products.length == 0">
+			<span translate>INFO_NO_WISHLIST_FOUND</span>
+		</div>
+			<vc-product-box [products]="products" [wishlist]="true" (wishlistClick)="removeFromWishlist($event)"></vc-product-box>
+	</div>
+</div>

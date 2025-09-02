@@ -1,0 +1,58 @@
+<div class="container section">
+	<h2 class="vc-page-title" translate>LABEL_MY_ORDERS</h2>
+
+	<vc-loader *ngIf="isLoading"></vc-loader>
+	<div class="">
+		<div class="text-center p-4" *ngIf="!isLoading && orders.length == 0">
+			<span class="vc-body-l" translate>INFO_NO_ORDER_FOUND</span>
+		</div>
+		<div class="p-4">
+			<mat-card *ngFor="let o of orders" class="vc-box-shadow border">
+				<mat-card-title class="d-flex justify-content-between px-1 pb-2">
+					<div class="vc-title-m">
+						<span translate >LABEL_ORDER_ID</span>: #{{ o._id }}
+					</div>
+					<div class="vc-title-m">
+						<span translate>LABEL_{{ o.status }}</span>
+					</div>
+				</mat-card-title>
+				<mat-card-content class="px-1">
+					<div class="row">
+						<div class="col-md-12 col-lg-6 pb-2">
+							<span class="vc-title-m" translate>LABEL_PLACED</span>:
+							<span class="vc-body-m">{{ o.createdAt }}</span>
+						</div>
+						<div class="col-md-12 col-lg-6 pb-2">
+							<span class="vc-title-m" translate>LABEL_PAYMENT_METHOD</span>:
+							<span class="vc-body-m" translate>LABEL_{{ o.method }}</span>
+						</div>
+						<div class="col-md-12 col-lg-6 pb-2">
+							<span class="vc-title-m" translate>LABEL_TOTAL</span>:
+							<span class="vc-body-m" >{{ o.grandTotal | vccurrency:o.currency.code }}</span>
+						</div>
+						<div class="col-md-12 col-lg-6 pb-2" *ngIf="o.status == 'PENDING' || o.status == 'CONFIRMED' || o.status == 'ON_THE_WAY'">
+							<span class="vc-title-m" translate>MSG_TO_BE_DELIVER_ON</span>:
+							<span class="vc-body-m">{{ o.deliveryDate }} {{ o.deliveryTime }}</span>
+						</div>
+						<div class="col-md-12 col-lg-6 pb-2" *ngIf="o.status == 'DELIVERED'">
+							<span class="vc-title-m" translate>LABEL_DELIVERED</span>:
+							<span class="vc-body-m">{{ o.updatedAt }}</span>
+						</div>
+						<div class="col-md-12 col-lg-6 pb-2" *ngIf="o.status == 'CANCELLED'">
+							<span class="vc-title-m" translate>LABEL_CANCELLED</span>:
+							<span class="vc-body-m">{{ o.updatedAt }}</span>
+						</div>
+					</div>
+					<div class="d-flex justify-content-between mt-3">
+						<button mat-flat-button color="primary" [routerLink]="['/orders', o._id, 'view']">
+							<span translate>LABEL_VIEW_ORDER</span>
+						</button>
+						<button mat-flat-button color="warn" (click)="cancelOrder(o)" *ngIf="o.status == 'PENDING' || o.status == 'CONFIRMED' || o.status == 'ON_THE_WAY'">
+							<span translate>LABEL_CANCEL_ORDER</span>
+						</button>
+					</div>
+				</mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+</div>

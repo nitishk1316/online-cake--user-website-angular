@@ -1,0 +1,19 @@
+<div class="container section">
+	<h2 class="vc-page-title" translate>LABEL_CHANGE_LANGUAGE</h2>
+
+	<mat-card class="vc-box-shadow">
+		<mat-card-content class="mb-5">
+			<vc-loader *ngIf="isLoading"></vc-loader>
+
+			<mat-selection-list [multiple]="false" #lang (selectionChange)="setDefault(lang.selectedOptions.selected)">
+				<mat-list-option *ngFor="let l of languages" [selected]="l.code == defaultLanguage" [value]="l.code" class="border-top border-bottom">
+					<div class="d-flex" >
+						<span class="mr-auto">{{ l.title }} </span>
+						<mat-icon *ngIf="l.code == defaultLanguage">check_circle_outline</mat-icon>
+					</div>
+				</mat-list-option>
+			</mat-selection-list>
+
+		</mat-card-content>
+	</mat-card>
+</div>

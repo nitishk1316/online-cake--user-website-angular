@@ -1,0 +1,74 @@
+<div class="row">
+	<div class="container section col-8 m-auto">
+		<h2 class="vc-page-title" translate>LABEL_UPDATE_EMAIL</h2>
+
+		<mat-card class="vc-box-shadow">
+			<mat-card-header class="text-center">
+				<mat-card-subtitle *ngIf="emailSentMsg">
+					<p>{{ emailSentMsg }}</p>
+					<!-- DEMO - Remove from release  -->
+					<p class="note">Please enter OTP as 2345. For demo purpose, we are not sending Email, but you will get Email OTP features when you buy.</p>
+					<!-- END DEMO -->
+				</mat-card-subtitle>
+			</mat-card-header>
+
+			<mat-card-content class="mt-3">
+				<form #updateEmailForm="ngForm">
+					<vc-loader *ngIf="isLoading"></vc-loader>
+
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>
+							<span translate>LABEL_EMAIL</span>
+						</mat-label>
+						<input
+							matInput
+							[(ngModel)]="emailObj.email"
+							#email="ngModel"
+							name="email"
+							placeholder="{{ 'PLACEHOLDER_EMAIL' | translate }}"
+							[disabled]="isLoading"
+							required
+						/>
+					</mat-form-field>
+
+					<mat-form-field appearance="outline" class="w-100" *ngIf="emailSentMsg">
+						<mat-label>
+							<span translate>LABEL_OTP</span>
+						</mat-label>
+						<input
+							matInput
+							[(ngModel)]="emailObj.otp"
+							#otp="ngModel"
+							name="otp"
+							placeholder="{{ 'PLACEHOLDER_OTP' | translate }}"
+							[disabled]="isLoading"
+							required
+						/>
+					</mat-form-field>
+				</form>
+			</mat-card-content>
+
+			<mat-card-actions>
+				<button
+					*ngIf="!emailSentMsg"
+					mat-raised-button
+					color="primary"
+					[disabled]="isLoading || !updateEmailForm.valid"
+					(click)="changeEmail()"
+				>
+				<span translate>LABEL_CHANGE</span>
+			</button>
+
+			<button
+					*ngIf="emailSentMsg"
+					mat-raised-button
+					color="primary"
+					[disabled]="isLoading || !updateEmailForm.valid"
+					(click)="updateEmail()"
+				>
+				<span translate>LABEL_UPDATE</span>
+			</button>
+			</mat-card-actions>
+		</mat-card>
+	</div>
+</div>

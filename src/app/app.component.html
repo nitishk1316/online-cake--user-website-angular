@@ -1,0 +1,15 @@
+<ngx-loading-bar height="5px"></ngx-loading-bar>
+<mat-drawer-container>
+	<mat-drawer #drawer class="mobile-menu" mode="over">
+		<vc-header-menu [drawer]="drawer"></vc-header-menu>
+	</mat-drawer>
+
+	<mat-drawer-content>
+		<vc-header-toolbar [drawer]="drawer"></vc-header-toolbar>
+		<div class="main-content">
+			<router-outlet></router-outlet>
+			<vc-footer></vc-footer>
+		</div>
+	</mat-drawer-content>
+</mat-drawer-container>
+<vc-tap-to-top></vc-tap-to-top>
